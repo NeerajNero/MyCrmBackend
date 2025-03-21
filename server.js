@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import userRoutes from './routes/user.routes.js'
+import cookieParser from 'cookie-parser'
 
 import { initializeDatabase } from './db.connect/db.connect.js'
 
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:5173'
 }))
+app.use(cookieParser())
 
 app.use('/api',userRoutes)
 

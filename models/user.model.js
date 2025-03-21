@@ -13,7 +13,12 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        enum: ['Admin', 'sales_agent'],
+        default: "sales_agent"
     }
-})
+},{timestamps: true})
 
 export const User = mongoose.model('User', userSchema, "MP2Users")
