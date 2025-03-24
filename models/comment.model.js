@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const commentSchema = new mongoose.Schema({
   lead: {
@@ -8,7 +8,7 @@ const commentSchema = new mongoose.Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'SalesAgent',  
+    ref: 'User',  
     required: [true, 'Author is required'],
   },
   commentText: {
@@ -17,4 +17,4 @@ const commentSchema = new mongoose.Schema({
   },
 },{timestamps: true});
 
-module.exports = mongoose.model('Comment', commentSchema, 'MP2Comment');
+export const Comment = mongoose.model('Comment', commentSchema, 'MP2Comment');

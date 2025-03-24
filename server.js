@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import userRoutes from './routes/user.routes.js'
 import cookieParser from 'cookie-parser'
+import leadRoutes from './routes/lead.routes.js'
 
 import { initializeDatabase } from './db.connect/db.connect.js'
 
@@ -19,6 +20,7 @@ app.use(cors({
 app.use(cookieParser())
 
 app.use('/api',userRoutes)
+app.use('/lead', leadRoutes)
 
 const PORT = process.env.PORT
 
