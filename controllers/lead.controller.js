@@ -2,6 +2,9 @@ import { Lead } from "../models/lead.model.js";
 
 export const createLead = async(req,res) => {
     try{
+        if(!req?.user){
+            return res.status(400).json({message: "unauthorized access"})
+        }
         const {name,source,salesAgent,status,tags,timeToClose,priority} = req.body
         if(!name || !source || !salesAgent || !status || !tags || !timeToClose || !priority){
             return res.status(400).json({error: "Please enter all required fields"})
@@ -14,6 +17,41 @@ export const createLead = async(req,res) => {
         res.status(201).json({message: "new lead created successfully", lead: saveLead})
     }catch(error){
         console.log("error occured while creating lead", error.message)
+        res.status(500).json({error: "internal server error"})
+    }
+}
+
+export const getLeads = async(req,res) => {
+    try{
+        const leads = await Lead.find().populate({path: 'salesAgent', select: '-password -role'})
+        if(leads.length === 0){
+            return res.status(404).json({message: "No leads found"})
+        }
+        res.status(200).json({message: "leads fetched successfully", leads})
+    }catch(error){
+        console.log("error occured while fetching leads", error.message)
+        res.status(500).json({error: "internal server error"})
+    }
+}
+
+export const updateLead = async(req,res) => {
+    try{
+        const {leadId} = req.params
+        const {name,source,salesAgent,status,tags,timeToClose,priority} = req.body
+        if(!leadId){
+            return res.status(400).json({message: "lead id is required"})
+        }
+        if(!name || !source || !salesAgent || !status || !tags || !timeToClose || !priority){
+            return res.status(400).json({message: "all fields are required"})
+        }
+        const updateLead = await Lead.findByIdAndUpdate(leadId, {name,source,salesAgent,status,tags,timeToClose,priority},
+             {new: true, runValidators: true })
+        if(!updateLead){
+            return res.status(404).json({message: "lead not found"})
+        }
+        res.status(200).json({message: "lead updated successfully", lead: updateLead})
+    }catch(error){
+        console.log("error occured while updating lead", error.message)
         res.status(500).json({error: "internal server error"})
     }
 }
