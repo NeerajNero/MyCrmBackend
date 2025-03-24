@@ -12,7 +12,7 @@ const leadSchema = new mongoose.Schema({
       },
       salesAgent: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'SalesAgent',  
+        ref: 'User',  
         required: [true, 'Sales Agent is required'],
       },
       status: {
@@ -34,7 +34,10 @@ const leadSchema = new mongoose.Schema({
         required: true,
         enum: ['High', 'Medium', 'Low'],  
         default: 'Medium',
+      },
+      closedAt: {
+        type: Date
       }
 },{timestamps: true})
 
-export const Lead = mongoose.model('Lead', leadSchema, "RozPatshalaLeads")
+export const Lead = mongoose.model('Lead', leadSchema, "MP2Leads")
