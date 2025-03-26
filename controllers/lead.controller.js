@@ -55,3 +55,20 @@ export const updateLead = async(req,res) => {
         res.status(500).json({error: "internal server error"})
     }
 }
+
+export const deleteLead = async(req,res) => {
+    try{
+        const {leadId} = req.params
+        if(!leadId){
+            return res.status(400).json({message: "lead Id is required"})
+        }
+        const removeLead = await Lead.findByIdAndDelete(leadId)
+        if(!removeLead){
+            return res.status(404).json({message: "Lead not found"})
+        }
+        res.status(200).json({message: "Lead deleted successfully"})
+    }catch(error){
+        console.log("error occured while deleting lead", error.message)
+        res.status(500).json({error: "internal server error"})
+    }
+}
