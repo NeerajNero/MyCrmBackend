@@ -81,3 +81,16 @@ export const deleteLead = async(req,res) => {
         res.status(500).json({error: "internal server error"})
     }
 }
+
+export const getAllLeads = async(req,res) => {
+    try{
+        const leads = await Lead.find({status: {$ne : "Closed"}})
+        if(leads.length === 0){
+            return res.status(404).json({message: "no leads found"})
+        }
+        res.status(200).json({message: "leads fetched successfully", leads})
+    }catch(error){
+        console.log("error occured while fetching leads", error.message)
+        res.status(500).json({error: "internal server error"})
+    }
+}
