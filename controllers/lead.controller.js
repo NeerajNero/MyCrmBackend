@@ -56,7 +56,7 @@ export const updateLead = async(req,res) => {
         const updateLead = await Lead.findByIdAndUpdate(leadId, {name,source,salesAgent,status,tags,timeToClose,priority},
              {new: true, runValidators: true })
         if(!updateLead){
-            return res.status(404).json({message: "lead not found"})
+            return res.status(404).json({message: "lead not found."})
         }
         res.status(200).json({message: "lead updated successfully", lead: updateLead})
     }catch(error){
