@@ -58,7 +58,7 @@ export const updateLead = async(req,res) => {
         if(!updateLead){
             return res.status(404).json({message: "lead not found."})
         }
-        res.status(200).json({message: "lead updated successfully", lead: updateLead})
+        res.status(200).json({message: "lead updated successfully.", lead: updateLead})
     }catch(error){
         console.log("error occured while updating lead", error.message)
         res.status(500).json({error: "internal server error"})
