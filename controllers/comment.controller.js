@@ -13,7 +13,7 @@ export const addComment = async(req,res) => {
         }
         res.status(201).json({message: "comment added successfully", comment: saveNewComment})
     }catch(error){
-        console.log("error occured while adding comment",error.message)
+        console.log("error occured while adding comment.",error.message)
         res.status(500).json({error: error.message})
     }
 }
