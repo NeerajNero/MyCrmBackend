@@ -3,7 +3,7 @@ import { Lead } from "../models/lead.model.js";
 export const createLead = async(req,res) => {
     try{
         if(!req?.user){
-            return res.status(400).json({message: "unauthorized access"})
+            return res.status(400).json({message: "unauthorized access!"})
         }
         const {name,source,salesAgent,status,tags,timeToClose,priority} = req.body
         if(!name || !source || !salesAgent || !status || !tags || !timeToClose || !priority){
