@@ -7,7 +7,7 @@ export const createLead = async(req,res) => {
         }
         const {name,source,salesAgent,status,tags,timeToClose,priority} = req.body
         if(!name || !source || !salesAgent || !status || !tags || !timeToClose || !priority){
-            return res.status(400).json({error: "Please enter all required fields"})
+            return res.status(400).json({error: "Please enter all required fields."})
         }
         const newLead = new Lead({name,source,salesAgent,status,tags,timeToClose,priority})
         const saveLead = await newLead.save()
