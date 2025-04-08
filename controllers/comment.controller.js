@@ -11,7 +11,8 @@ export const addComment = async(req,res) => {
         if(!saveNewComment){
             return res.status(400).json({error: "unable to add comment"})
         }
-        res.status(201).json({message: "comment added successfully", comment: saveNewComment})
+        const populatedComment = await Comment.findById(saveNewComment._id).populate('author').select('-password -role')
+        res.status(201).json({message: "comment added successfully", comment: populatedComment})
     }catch(error){
         console.log("error occured while adding comment.",error.message)
         res.status(500).json({error: error.message})
@@ -24,7 +25,7 @@ export const getAllComments = async(req,res) => {
         if(!leadId){
             return res.status(400).json({message: "Lead id is required"})
         }
-        const comments = await Comment.find({lead: leadId}).populate({path: "lead author", select: "-password -role"})
+        const comments = await Comment.find({lead: leadId}).populate({path: "author", select: "-password -role"})
         if(comments.length === 0){
             return res.status(404).json({message: "comments not found"})
         }

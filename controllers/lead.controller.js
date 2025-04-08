@@ -94,3 +94,20 @@ export const getAllLeads = async(req,res) => {
         res.status(500).json({error: "internal server error"})
     }
 }
+
+export const getLeadById = async(req,res) => {
+    try{
+        const {leadId} = req.params
+        if(!leadId){
+            return res.status(400).json({message: "lead id is required"})
+        }
+        const leads = await Lead.findById(leadId).populate({path: 'salesAgent', select: '-password -role'})
+        if(leads.length === 0 || !leads){
+            return res.status(404).json({message: "No leads found"})
+        }
+        res.status(200).json({message: "leads fetched successfully",lead: leads})
+    }catch(error){
+        console.log("error occured while fetching leads", error.message)
+        res.status(500).json({error: "internal server error"})
+    }
+}
