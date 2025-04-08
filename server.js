@@ -5,6 +5,7 @@ import userRoutes from './routes/user.routes.js'
 import cookieParser from 'cookie-parser'
 import leadRoutes from './routes/lead.routes.js'
 import commentRoutes from './routes/comment.routes.js'
+import tagRoutes from './routes/tags.routes.js'
 
 import { initializeDatabase } from './db.connect/db.connect.js'
 
@@ -24,6 +25,7 @@ app.use(cookieParser())
 app.use('/api',userRoutes)
 app.use('/lead', leadRoutes)
 app.use('/comment', commentRoutes)
+app.use('/tag', tagRoutes)
 
 const PORT = process.env.PORT
 
