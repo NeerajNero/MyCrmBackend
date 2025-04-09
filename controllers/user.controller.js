@@ -71,6 +71,7 @@ export const getAllAgents = async(req,res) => {
 export const getCurrentUser = async(req,res) => {
     try{
         const {userId} = req.params
+        console.log(userId)
         if(!userId){
             return res.status(400).json({message: "user id is required"})
         }
@@ -78,8 +79,20 @@ export const getCurrentUser = async(req,res) => {
         if(!currentUser){
             return res.status(400).json({message: "no user found"})
         }
+        console.log(currentUser)
+        res.status(200).json({mmessage: "user fetched successfully", user: currentUser})
     }catch(error){
         console.log("error occured while fetching agent",error.message)
+        res.status(500).json({error: error.message})
+    }
+}
+
+export const logout = async(req,res) => {
+    try{
+        res.clearCookie('token', {httpOnly: true, secure: process.env.NODE_ENV === "Production", sameSite: process.env.NODE_ENV === "Production" ? "strict" : "lax"})
+        res.status(200).json({message: "cookie cleared"})
+    }catch(error){
+        console.log("error occured while logout",error.message)
         res.status(500).json({error: error.message})
     }
 }

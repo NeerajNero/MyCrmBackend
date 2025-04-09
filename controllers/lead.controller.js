@@ -75,7 +75,7 @@ export const deleteLead = async(req,res) => {
         if(!removeLead){
             return res.status(404).json({message: "Lead not found"})
         }
-        res.status(200).json({message: "Lead deleted successfully"})
+        res.status(200).json({message: "Lead deleted successfully", leadId})
     }catch(error){
         console.log("error occured while deleting lead", error.message)
         res.status(500).json({error: "internal server error"})
