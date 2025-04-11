@@ -4,7 +4,7 @@ export const addComment = async(req,res) => {
     try{
         const {lead, author, commentText} = req.body
         if(!lead || !author || !commentText){
-            return res.status(400).json({message: "all feilds are required"})
+            return res.status(400).json({message: "all feilds are required!"})
         }
         const newComment = new Comment({lead,author,commentText})
         const saveNewComment = await newComment.save()
