@@ -3,11 +3,11 @@ import { Lead } from "../models/lead.model.js";
 export const createLead = async(req,res) => {
     try{
         if(!req?.user){
-            return res.status(400).json({message: "unauthorized access"})
+            return res.status(400).json({message: "unauthorized access!"})
         }
         const {name,source,salesAgent,status,tags,timeToClose,priority} = req.body
         if(!name || !source || !salesAgent || !status || !tags || !timeToClose || !priority){
-            return res.status(400).json({error: "Please enter all required fields"})
+            return res.status(400).json({error: "Please enter all required fields."})
         }
         const newLead = new Lead({name,source,salesAgent,status,tags,timeToClose,priority})
         const saveLead = await newLead.save()
@@ -56,9 +56,9 @@ export const updateLead = async(req,res) => {
         const updateLead = await Lead.findByIdAndUpdate(leadId, {name,source,salesAgent,status,tags,timeToClose,priority},
              {new: true, runValidators: true })
         if(!updateLead){
-            return res.status(404).json({message: "lead not found"})
+            return res.status(404).json({message: "lead not found."})
         }
-        res.status(200).json({message: "lead updated successfully", lead: updateLead})
+        res.status(200).json({message: "lead updated successfully.", lead: updateLead})
     }catch(error){
         console.log("error occured while updating lead", error.message)
         res.status(500).json({error: "internal server error"})
@@ -75,7 +75,7 @@ export const deleteLead = async(req,res) => {
         if(!removeLead){
             return res.status(404).json({message: "Lead not found"})
         }
-        res.status(200).json({message: "Lead deleted successfully"})
+        res.status(200).json({message: "Lead deleted successfully", leadId})
     }catch(error){
         console.log("error occured while deleting lead", error.message)
         res.status(500).json({error: "internal server error"})
@@ -89,6 +89,23 @@ export const getAllLeads = async(req,res) => {
             return res.status(404).json({message: "no leads found"})
         }
         res.status(200).json({message: "leads fetched successfully", leads})
+    }catch(error){
+        console.log("error occured while fetching leads", error.message)
+        res.status(500).json({error: "internal server error"})
+    }
+}
+
+export const getLeadById = async(req,res) => {
+    try{
+        const {leadId} = req.params
+        if(!leadId){
+            return res.status(400).json({message: "lead id is required"})
+        }
+        const leads = await Lead.findById(leadId).populate({path: 'salesAgent', select: '-password -role'})
+        if(leads.length === 0 || !leads){
+            return res.status(404).json({message: "No leads found"})
+        }
+        res.status(200).json({message: "leads fetched successfully",lead: leads})
     }catch(error){
         console.log("error occured while fetching leads", error.message)
         res.status(500).json({error: "internal server error"})

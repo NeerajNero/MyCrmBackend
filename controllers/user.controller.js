@@ -21,8 +21,8 @@ export const login = async(req,res) => {
         if(!token){
             return res.status(400).json({message: "unable to generate token"})
         }
-        res.cookie('token',token,{httpOnly: true, secure: process.env.NODE_ENV === "Production", sameSite: "strict", maxAge: 7*24*60*60*1000})
-        res.status(200).json({message: "Logged in successfully", userPayload})
+        res.cookie('token',token,{httpOnly: true, secure: process.env.NODE_ENV === "Production", sameSite: process.env.NODE_ENV === "Production" ? "strict" : "lax", maxAge: 7*24*60*60*1000})
+        res.status(200).json({message: "Logged in successfully", user: userPayload})
     }catch(error){
         console.log("error occured while logging in",error.message)
         res.status(500).json({error: error.message})
@@ -47,8 +47,8 @@ export const signup = async(req,res) => {
         if(!token){
             return res.status(400).json("unable to generate token")
         }
-        res.cookie('token',token,{httpOnly: true, secure: process.env.NODE_ENV === "Production", sameSite: "strict", maxAge: 7*24*60*60*1000})
-        res.status(201).json({message: "Signup successfull"})
+        res.cookie('token',token,{httpOnly: true, secure: process.env.NODE_ENV === "Production", sameSite: process.env.NODE_ENV === "Production" ? "strict" : "lax", maxAge: 7*24*60*60*1000})
+        res.status(201).json({message: "Signup successfull", user: savedUser})
     }catch(error){
         console.log("error occured while logging in",error.message)
         res.status(500).json({error: error.message})
@@ -64,6 +64,35 @@ export const getAllAgents = async(req,res) => {
         res.status(200).json({message: "fetched all agents", agents: allAgents})
     }catch(error){
         console.log("error occured while fetching agents",error.message)
+        res.status(500).json({error: error.message})
+    }
+}
+
+export const getCurrentUser = async(req,res) => {
+    try{
+        const {userId} = req.params
+        console.log(userId)
+        if(!userId){
+            return res.status(400).json({message: "user id is required"})
+        }
+        const currentUser = await User.findById(userId).select('-role -password')
+        if(!currentUser){
+            return res.status(400).json({message: "no user found"})
+        }
+        console.log(currentUser)
+        res.status(200).json({mmessage: "user fetched successfully", user: currentUser})
+    }catch(error){
+        console.log("error occured while fetching agent",error.message)
+        res.status(500).json({error: error.message})
+    }
+}
+
+export const logout = async(req,res) => {
+    try{
+        res.clearCookie('token', {httpOnly: true, secure: process.env.NODE_ENV === "Production", sameSite: process.env.NODE_ENV === "Production" ? "strict" : "lax"})
+        res.status(200).json({message: "cookie cleared"})
+    }catch(error){
+        console.log("error occured while logout",error.message)
         res.status(500).json({error: error.message})
     }
 }
