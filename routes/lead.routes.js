@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createLead, getLeads, updateLead, deleteLead, getAllLeads, getLeadById } from "../controllers/lead.controller.js"; 
+import { createLead, getLeads, updateLead, deleteLead, getAllLeads, getLeadById, getLeadsByAgentId, updateLeadStatus } from "../controllers/lead.controller.js"; 
 import { auth } from "../middlewares/auth.js";
 const router = Router()
 
@@ -9,5 +9,7 @@ router.put('/updateLead/:leadId', auth, updateLead)
 router.delete('/deleteLead/:leadId', auth, deleteLead )
 router.get('/getAllLeads', auth, getAllLeads)
 router.get('/getLeadById/:leadId', auth, getLeadById)
+router.get('/getLeadsByAgent/:agentId', auth, getLeadsByAgentId)
+router.patch('/updateLead/:leadId', auth, updateLeadStatus)
 
 export default router

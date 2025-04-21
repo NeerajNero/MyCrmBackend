@@ -11,7 +11,7 @@ export const auth = async(req,res,next) => {
         req.user = user
         next()
     }catch(error){
-        console.log("error occured while authentication")
+        console.log("error occured while authentication", error.message)
         res.status(500).json({message: "Internal server error", error: error.message})
     }
 }

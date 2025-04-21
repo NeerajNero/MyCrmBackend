@@ -125,6 +125,21 @@ export const getLeadsByAgentId = async(req,res) => {
         res.status(200).json({message: "data fetched successfully", leads})
     }catch(error){
         console.log("error occured while fetching data!", error.message)
-        res.status(500).json("Internal server error", error.message)
+        res.status(500).json({errorMessage: "Internal server error",error: error.message})
+    }
+}
+
+export const updateLeadStatus = async(req,res) => {
+    try{
+        const {leadId} = req.params
+        const {status} = req.body
+        if(!leadId || !status){
+            return res.status(400).json({error: "lead id and status is required!"})
+        }
+        const updateLead = await Lead.findByIdAndUpdate(leadId, {status, closedAt: new Date()}, {new: true})
+        res.status(200).json({message: "lead updated successfully", lead: updateLead})
+    }catch(error){
+        console.log("error occured while updating status", error.message)
+        res.status(500).json({error: "Internal server error",errorMessage: error.message})
     }
 }
