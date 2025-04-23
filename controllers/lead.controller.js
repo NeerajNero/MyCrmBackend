@@ -105,7 +105,7 @@ export const getLeadById = async(req,res) => {
         if(leads.length === 0 || !leads){
             return res.status(404).json({message: "No leads found"})
         }
-        res.status(200).json({message: "leads fetched successfully",lead: leads})
+        res.status(200).json({message: "leads fetched successfully...",lead: leads})
     }catch(error){
         console.log("error occured while fetching leads", error.message)
         res.status(500).json({error: "internal server error"})
