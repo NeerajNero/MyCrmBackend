@@ -14,7 +14,8 @@ export const createLead = async(req,res) => {
         if(!saveLead){
             return res.status(400).json({error: "unable to save new lead"})
         }
-        res.status(201).json({message: "new lead created successfully", lead: saveLead})
+        const findLead = await Lead.findById(saveLead._id).populate('salesAgent')
+        res.status(201).json({message: "new lead created successfully", lead: findLead})
     }catch(error){
         console.log("error occured while creating lead", error.message)
         res.status(500).json({error: "internal server error"})
