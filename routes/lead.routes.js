@@ -10,6 +10,6 @@ router.delete('/deleteLead/:leadId', auth, deleteLead )
 router.get('/getAllLeads', auth, getAllLeads)
 router.get('/getLeadById/:leadId', auth, getLeadById)
 router.get('/getLeadsByAgent/:agentId', auth, getLeadsByAgentId)
-router.patch('/updateLead/:leadId', auth, updateLeadStatus)
+router.patch('/closeLead/:leadId', auth, updateLeadStatus)
 
 export default router

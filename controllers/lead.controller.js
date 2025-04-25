@@ -38,7 +38,7 @@ export const getLeads = async(req,res) => {
 export const updateLead = async(req,res) => {
     try{
         const {leadId} = req.params
-        const {name,source,salesAgent,status,tags,timeToClose,priority} = req.body
+        const {name,source,salesAgent,status,tags,timeToClose,priority} = req.body.leadFormData
         if(!leadId){
             return res.status(400).json({message: "lead id is required"})
         }
@@ -59,7 +59,8 @@ export const updateLead = async(req,res) => {
         if(!updateLead){
             return res.status(404).json({message: "lead not found."})
         }
-        res.status(200).json({message: "lead updated successfully.", lead: updateLead})
+        const findLead = await Lead.findById(leadId).populate({path: "salesAgent", select: "-password"})
+        res.status(200).json({message: "lead updated successfully.", lead: findLead})
     }catch(error){
         console.log("error occured while updating lead", error.message)
         res.status(500).json({error: "internal server error"})
@@ -119,7 +120,7 @@ export const getLeadsByAgentId = async(req,res) => {
         if(!agentId){
             return res.status(400).json("agent Id is required!")
         }
-        const leads = await Lead.find({salesAgent: agentId}).populate('salesAgent')
+        const leads = await Lead.find({salesAgent: agentId}).populate({path: "salesAgent", select: "-password"})
         if(leads.length === 0){
             return res.status(404).json("no data found!")
         }
