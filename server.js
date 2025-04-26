@@ -26,6 +26,9 @@ app.use('/api',userRoutes)
 app.use('/lead', leadRoutes)
 app.use('/comment', commentRoutes)
 app.use('/tag', tagRoutes)
+app.get("/", (req,res) => {
+    res.status(200).json("Welcome Dev!")
+} )
 
 const PORT = process.env.PORT
 
