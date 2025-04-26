@@ -5,7 +5,7 @@ export const auth = async(req,res,next) => {
         const {token} = req.cookies
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         if(!decoded){
-            return res.status(400).json("unauthorized access")
+            return res.status(400).json("unauthorized access!")
         }
         const {user} = decoded
         req.user = user
