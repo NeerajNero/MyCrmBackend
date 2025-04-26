@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 export const auth = async(req,res,next) => {
     try{
         const {token} = req.cookies
+        console.log(token)
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         if(!decoded){
             return res.status(400).json("unauthorized access!")
