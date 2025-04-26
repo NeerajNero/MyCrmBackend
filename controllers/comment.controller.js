@@ -27,7 +27,7 @@ export const getAllComments = async(req,res) => {
         }
         const comments = await Comment.find({lead: leadId}).populate({path: "author", select: "-password -role"})
         if(comments.length === 0){
-            return res.status(404).json({message: "comments not found"})
+            return res.status(404).json({message: "comments not found!"})
         }
         res.status(200).json({message: "comments fetched successfully", comments})
     }catch(error){
