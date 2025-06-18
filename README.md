@@ -1,1 +1,1 @@
-yet to add Readme content
+This is the backend for a custom CRM (Customer Relationship Management) tool built using Node.js, Express, and MongoDB. It handles user authentication (JWT-based), customer and lead management, and CRUD operations for contact data. The API is designed with RESTful principles and includes middleware for error handling, route protection, and input validation. It serves as the backend foundation for managing business relationships, tracking interactions, and organizing customer data efficiently.
